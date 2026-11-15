@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  News shown in the Hungária Launcher. Newest post first.
+  To add a post, copy an <item> block to the top of the list and edit it.
+  The launcher shows the title, author (dc:creator), date (pubDate) and the HTML inside content:encoded.
+-->
+<rss version="2.0"
+     xmlns:content="http://purl.org/rss/1.0/modules/content/"
+     xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <channel>
+    <title>Hungária hírek</title>
+    <link>https://hungaria-launcher.vercel.app/</link>
+    <description>A Hungária szerver hírei</description>
+    <language>hu</language>
+
+    <item>
+      <title>Megérkezett a Hungária Launcher!</title>
+      <link>https://hungaria-launcher.vercel.app/</link>
+      <dc:creator>Hungária</dc:creator>
+      <pubDate>Sun, 15 Nov 2026 22:00:00 +0100</pubDate>
+      <content:encoded><![CDATA[
+        <p>Üdv a Hungária szerveren! Az új launcher automatikusan letölti a szükséges modokat, és egy kattintással csatlakozik a szerverhez.</p>
+        <p>Jó játékot!</p>
+      ]]></content:encoded>
+    </item>
+
+  </channel>
+</rss>
