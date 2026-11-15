@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="hu" data-lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hungária – Minecraft szerver</title>
+  <meta name="description" content="Hungária: magyar frakciós túlélő Minecraft szerver saját launcherrel. A Hungarian factions & survival Minecraft server.">
+  <meta property="og:title" content="Hungária – Minecraft szerver">
+  <meta property="og:description" content="Magyar frakciós túlélő Minecraft szerver saját launcherrel.">
+  <meta property="og:image" content="/assets/coat-of-arms.webp">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --red: #c8243a;
+      --green: #3f6b4b;
+      --gold: #e2b23c;
+      --bg: #f7f3ec;
+      --surface: #ffffff;
+      --text: #1f1c1a;
+      --muted: #5f5852;
+      --border: #e4ddd2;
+      --shadow: 0 1px 2px rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.06);
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #14120f;
+        --surface: #1e1b17;
+        --text: #f2ede6;
+        --muted: #b3aba1;
+        --border: #34302a;
+        --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+      }
+    }
+
+    html[data-lang="hu"] .en, html[data-lang="en"] .hu { display: none; }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.6 Inter, system-ui, sans-serif;
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+
+    .flag { display: flex; height: 6px; }
+    .flag span { flex: 1; }
+    .flag span:nth-child(1) { background: var(--red); }
+    .flag span:nth-child(2) { background: #fff; }
+    .flag span:nth-child(3) { background: var(--green); }
+
+    header {
+      position: sticky; top: 0; z-index: 10;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+    }
+    nav { display: flex; align-items: center; gap: 24px; height: 60px; }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font: 700 20px Cinzel, serif; letter-spacing: .02em; }
+    .brand img { width: 30px; height: 30px; }
+    .links { display: flex; gap: 20px; margin-left: auto; }
+    .links a { text-decoration: none; color: var(--muted); font-weight: 500; font-size: 15px; }
+    .links a:hover { color: var(--text); }
+    .lang {
+      display: flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden;
+    }
+    .lang button {
+      border: 0; background: transparent; color: var(--muted); font: 600 13px Inter, sans-serif;
+      padding: 6px 12px; cursor: pointer;
+    }
+    .lang button[aria-pressed="true"] { background: var(--text); color: var(--bg); }
+
+    .hero { display: grid; grid-template-columns: 1fr auto; gap: 48px; align-items: center; padding: 72px 0 64px; }
+    .hero h1 { font: 700 clamp(44px, 8vw, 76px)/1.05 Cinzel, serif; margin: 0 0 12px; letter-spacing: .01em; }
+    .tagline { font-size: clamp(19px, 2.4vw, 23px); font-weight: 600; margin: 0 0 12px; }
+    .lede { color: var(--muted); font-size: 18px; margin: 0 0 28px; max-width: 34em; }
+    .hero img { width: 210px; height: auto; filter: drop-shadow(0 12px 24px rgba(0,0,0,.18)); }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px; padding: 13px 22px; border-radius: 10px;
+      font-weight: 600; text-decoration: none; border: 1px solid transparent; font-size: 16px;
+    }
+    .btn-primary { background: var(--red); color: #fff; }
+    .btn-primary:hover { filter: brightness(1.08); }
+    .btn-primary[aria-disabled="true"] { background: var(--border); color: var(--muted); pointer-events: none; }
+    .btn-secondary { border-color: var(--border); background: var(--surface); }
+    .btn-secondary:hover { border-color: var(--muted); }
+    .note { color: var(--muted); font-size: 14px; }
+
+    section { padding: 56px 0; }
+    section h2 { font: 700 30px Cinzel, serif; margin: 0 0 8px; }
+    .section-lede { color: var(--muted); margin: 0 0 28px; max-width: 40em; }
+
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+      padding: 22px; box-shadow: var(--shadow);
+    }
+    .card .icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; margin-bottom: 14px; }
+    .card .icon svg { width: 22px; height: 22px; }
+    .card h3 { margin: 0 0 6px; font-size: 18px; }
+    .card p { margin: 0; color: var(--muted); font-size: 15px; }
+    .i-red { background: color-mix(in srgb, var(--red) 14%, transparent); color: var(--red); }
+    .i-green { background: color-mix(in srgb, var(--green) 18%, transparent); color: var(--green); }
+    .i-gold { background: color-mix(in srgb, var(--gold) 20%, transparent); color: #a87b12; }
+    @media (prefers-color-scheme: dark) {
+      .i-green { color: #7fb08c; }
+      .i-gold { color: var(--gold); }
+    }
+
+    .launcher { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: start; }
+    .checklist { list-style: none; padding: 0; margin: 0 0 20px; display: grid; gap: 10px; }
+    .checklist li { display: flex; gap: 10px; align-items: flex-start; }
+    .checklist svg { flex: none; width: 20px; height: 20px; margin-top: 3px; color: var(--green); }
+    @media (prefers-color-scheme: dark) { .checklist svg { color: #7fb08c; } }
+    .req { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 16px 18px; font-size: 15px; }
+    .req strong { display: block; margin-bottom: 4px; }
+
+    .steps { counter-reset: step; list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+    .steps li {
+      counter-increment: step; position: relative; padding: 16px 18px 16px 62px;
+      background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+    }
+    .steps li::before {
+      content: counter(step); position: absolute; left: 18px; top: 14px; width: 30px; height: 30px;
+      border-radius: 50%; background: var(--red); color: #fff; display: grid; place-items: center;
+      font-weight: 700; font-size: 15px;
+    }
+    .warn {
+      margin-top: 20px; padding: 14px 18px; border-radius: 12px; font-size: 15px;
+      background: color-mix(in srgb, var(--gold) 14%, var(--surface)); border: 1px solid color-mix(in srgb, var(--gold) 40%, var(--border));
+    }
+
+    footer { border-top: 1px solid var(--border); padding: 28px 0 40px; color: var(--muted); font-size: 13px; }
+    footer p { margin: 4px 0; }
+
+    @media (max-width: 760px) {
+      .links { display: none; }
+      .lang { margin-left: auto; }
+      .hero { grid-template-columns: 1fr; padding: 40px 0 32px; gap: 24px; text-align: center; }
+      .hero img { width: 140px; margin: 0 auto; grid-row: 1; }
+      .lede { margin-left: auto; margin-right: auto; }
+      .actions { justify-content: center; }
+      .launcher { grid-template-columns: 1fr; }
+      section { padding: 40px 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="flag" aria-hidden="true"><span></span><span></span><span></span></div>
+
+  <header>
+    <nav class="wrap">
+      <a class="brand" href="#top"><img src="/assets/favicon.png" alt="">Hungária</a>
+      <div class="links">
+        <a href="#about"><span class="hu">A szerverről</span><span class="en">About</span></a>
+        <a href="#launcher">Launcher</a>
+        <a href="#join"><span class="hu">Csatlakozás</span><span class="en">How to join</span></a>
+      </div>
+      <div class="lang" role="group" aria-label="Nyelv / Language">
+        <button type="button" data-set-lang="hu" aria-pressed="true">HU</button>
+        <button type="button" data-set-lang="en" aria-pressed="false">EN</button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <div class="wrap hero">
+      <div>
+        <h1>Hungária</h1>
+        <p class="tagline">
+          <span class="hu">Magyar frakciós túlélő Minecraft szerver.</span>
+          <span class="en">A Hungarian factions &amp; survival Minecraft server.</span>
+        </p>
+        <p class="lede">
+          <span class="hu">Alapíts frakciót a barátaiddal, építsd fel a birodalmadat, és védd meg, ami a tiéd.</span>
+          <span class="en">Found a faction with your friends, build up your realm, and defend what's yours.</span>
+        </p>
+        <div class="actions">
+          <a class="btn btn-primary" data-download href="#join">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M5 21h14"/></svg>
+            <span data-download-label>
+              <span class="hu">A launcher hamarosan érkezik</span><span class="en">Launcher coming soon</span>
+            </span>
+          </a>
+          <a class="btn btn-secondary" href="#join"><span class="hu">Hogyan csatlakozz?</span><span class="en">How to join</span></a>
+        </div>
+      </div>
+      <img src="/assets/coat-of-arms.webp" width="300" height="640" alt="Magyarország címere / Coat of arms of Hungary">
+    </div>
+
+    <section id="about">
+      <div class="wrap">
+        <h2><span class="hu">A szerverről</span><span class="en">About the server</span></h2>
+        <p class="section-lede">
+          <span class="hu">A Hungária egy egyszerű, magyar közösségi szerver. Nincs bonyolult rendszer: túlélés, frakciók és egy kis kereskedés.</span>
+          <span class="en">Hungária is a simple Hungarian community server. Nothing complicated: survival, factions and a bit of trading.</span>
+        </p>
+        <div class="cards">
+          <div class="card">
+            <div class="icon i-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 21V4m0 0h11l-2 4 2 4H4"/></svg></div>
+            <h3><span class="hu">Frakciók</span><span class="en">Factions</span></h3>
+            <p><span class="hu">Szövetkezz másokkal, foglalj területet, és vívd meg a saját háborúidat.</span><span class="en">Team up, claim land, and fight your own wars.</span></p>
+          </div>
+          <div class="card">
+            <div class="icon i-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18M6 21V10l6-5 6 5v11M10 21v-5h4v5"/></svg></div>
+            <h3><span class="hu">Túlélés</span><span class="en">Survival</span></h3>
+            <p><span class="hu">Klasszikus túlélés: gyűjts, építs, és maradj életben.</span><span class="en">Classic survival: gather, build, and stay alive.</span></p>
+          </div>
+          <div class="card">
+            <div class="icon i-gold"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v8M9.5 10.5c0-1.4 5-1.4 5 0s-5 1.6-5 3 5 1.4 5 0"/></svg></div>
+            <h3><span class="hu">Egyszerű gazdaság</span><span class="en">Minimal economy</span></h3>
+            <p><span class="hu">Visszafogott gazdaság a kereskedéshez – a játék a lényeg, nem a pénz.</span><span class="en">A light economy for trading – the game comes first, not the money.</span></p>
+          </div>
+          <div class="card">
+            <div class="icon i-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10l2 2M5 19l2-2M17 7l2-2"/></svg></div>
+            <h3><span class="hu">Modok</span><span class="en">Mods</span></h3>
+            <p><span class="hu">Gépek, ágyúk, tankok, repülő hajók és lőfegyverek a Create, a Valkyrien Skies és a TaCZ modokkal.</span><span class="en">Machines, cannons, tanks, flying ships and guns with Create, Valkyrien Skies and TaCZ.</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="launcher">
+      <div class="wrap launcher">
+        <div>
+          <h2>Hungária Launcher</h2>
+          <p class="section-lede">
+            <span class="hu">A launcher mindent elintéz helyetted: telepíti a Forge-ot és az összes szükséges modot, frissen tartja őket, és egy kattintással a szerverre visz.</span>
+            <span class="en">The launcher handles everything: it installs Forge and every required mod, keeps them up to date, and takes you to the server in one click.</span>
+          </p>
+          <ul class="checklist">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span><span class="hu">Minecraft 1.20.1 és Forge, automatikusan beállítva</span><span class="en">Minecraft 1.20.1 and Forge, set up automatically</span></span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span><span class="hu">A modok maguktól frissülnek</span><span class="en">Mods update on their own</span></span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span><span class="hu">Bejelentkezés Microsoft-fiókkal</span><span class="en">Sign in with your Microsoft account</span></span></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5L20 7"/></svg><span><span class="hu">Automatikus csatlakozás a szerverhez</span><span class="en">Joins the server automatically</span></span></li>
+          </ul>
+        </div>
+        <div class="req">
+          <strong><span class="hu">Követelmények</span><span class="en">Requirements</span></strong>
+          <span class="hu">Windows 10 vagy 11 (64 bites), és egy megvásárolt Minecraft: Java Edition.</span>
+          <span class="en">Windows 10 or 11 (64-bit), and an owned copy of Minecraft: Java Edition.</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="join">
+      <div class="wrap">
+        <h2><span class="hu">Csatlakozás</span><span class="en">How to join</span></h2>
+        <p class="section-lede">
+          <span class="hu">Négy lépés, és már bent is vagy.</span>
+          <span class="en">Four steps and you're in.</span>
+        </p>
+        <ol class="steps">
+          <li><span class="hu">Töltsd le és telepítsd a Hungária Launchert.</span><span class="en">Download and install Hungária Launcher.</span></li>
+          <li><span class="hu">Jelentkezz be a Microsoft-fiókoddal.</span><span class="en">Sign in with your Microsoft account.</span></li>
+          <li><span class="hu">Nyomd meg a PLAY gombot. Az első indítás néhány percig tart, amíg minden letöltődik.</span><span class="en">Press PLAY. The first launch takes a few minutes while everything downloads.</span></li>
+          <li><span class="hu">A játék elindul, és automatikusan csatlakozik a szerverhez.</span><span class="en">The game starts and joins the server automatically.</span></li>
+        </ol>
+        <div class="warn">
+          <span class="hu">Ha a telepítéskor a Windows „A Windows megvédte a számítógépet” üzenetet mutatja, kattints a „További információ”, majd a „Futtatás mindenképp” gombra. Ez azért van, mert a launcher még nincs digitálisan aláírva.</span>
+          <span class="en">If Windows shows “Windows protected your PC” during install, click “More info”, then “Run anyway”. This happens because the launcher isn't digitally signed yet.</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <p>
+        <span class="hu">NEM HIVATALOS MINECRAFT-TERMÉK. NEM A MOJANG VAGY A MICROSOFT JÓVÁHAGYÁSÁVAL KÉSZÜLT, ÉS NEM ÁLL KAPCSOLATBAN VELÜK.</span>
+        <span class="en">NOT AN OFFICIAL MINECRAFT PRODUCT. NOT APPROVED BY OR ASSOCIATED WITH MOJANG OR MICROSOFT.</span>
+      </p>
+      <p>
+        <span class="hu">A launcher a <a href="https://github.com/dscalzi/HeliosLauncher">Helios Launcher</a> alapján készült.</span>
+        <span class="en">The launcher is based on <a href="https://github.com/dscalzi/HeliosLauncher">Helios Launcher</a>.</span>
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    // Set to the installer URL once it is published, e.g.
+    // 'https://cdn.catcorporation.top/launcher/HungariaLauncher-setup-1.0.0.exe'
+    const DOWNLOAD_URL = ''
+
+    const TITLES = {
+      hu: 'Hungária – Minecraft szerver',
+      en: 'Hungária – Minecraft server'
+    }
+
+    const download = document.querySelector('[data-download]')
+    if (DOWNLOAD_URL) {
+      download.href = DOWNLOAD_URL
+      download.querySelector('[data-download-label]').innerHTML =
+        '<span class="hu">Launcher letöltése</span><span class="en">Download the launcher</span>'
+    } else {
+      download.setAttribute('aria-disabled', 'true')
+    }
+
+    function setLang(lang) {
+      document.documentElement.dataset.lang = lang
+      document.documentElement.lang = lang
+      document.title = TITLES[lang]
+      document.querySelectorAll('[data-set-lang]').forEach(b => {
+        b.setAttribute('aria-pressed', String(b.dataset.setLang === lang))
+      })
+      try { localStorage.setItem('lang', lang) } catch (e) {}
+    }
+
+    document.querySelectorAll('[data-set-lang]').forEach(b => {
+      b.addEventListener('click', () => setLang(b.dataset.setLang))
+    })
+
+    let saved = null
+    try { saved = localStorage.getItem('lang') } catch (e) {}
+    if (saved === 'hu' || saved === 'en') setLang(saved)
+  </script>
+</body>
+</html>
